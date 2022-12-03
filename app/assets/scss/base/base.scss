@@ -1,0 +1,43 @@
+body {
+    color: $base-text-color;
+    background: $base-background-color;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+}
+
+h1 {
+    font-size: 20px;
+    color: $base-heading-color;
+}
+
+h2 {
+    color: $base-heading-color;
+    font-size: 16px;
+}
+
+h2 span{
+    color: $base-highlight-color;
+    font-size: 16px;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+td {
+    border: solid 1px $base-border-color;
+    padding: 5px 20px;
+    text-align: left;
+}
+
+.table-container {
+    display: flex;
+    justify-content: space-around;
+}
+
+code {
+    background-color: #d4d4d4;
+    padding: 2px;
+    border-radius: 6px;
+}

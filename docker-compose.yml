@@ -1,0 +1,59 @@
+version: "3"
+services:
+  nginx:
+    container_name: nginx_cfml_application_template
+    restart: always
+    image: nginx:stable-alpine
+    depends_on:
+      - cfml
+    networks:
+      - frontend
+  
+  cfml:
+    container_name: cfml_cfml_application_template
+    restart: always
+    build: ./
+    environment:
+      BOX_SERVER_APP_CFENGINE: lucee@5.3
+      BOX_SERVER_WEB_DIRECTORYBROWSING: 'false'
+      BOX_SERVER_WEB_REWRITES_ENABLE: 'true'
+    networks:
+      - frontend
+      - backend
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://cfml" ]
+      interval: 1m30s
+      timeout: 5s
+      retries: 10
+      start_period: 25s
+ 
+  mysql:
+    container_name: mysql_cfml_application_template
+    restart: always
+    image: mysql:5.7
+    command:
+      [
+        "--sql_mode=",
+        "--innodb_strict_mode=OFF",
+        "--character-set-server=utf8mb4",
+        "--collation-server=utf8mb4_unicode_ci",
+        "--default-authentication-plugin=mysql_native_password"
+      ]
+    volumes:
+      - "db-data:/var/lib/mysql"
+      - "./db/init:/docker-entrypoint-initdb.d"
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+volumes:
+  db-data:
+
+networks:
+  frontend:
+      driver: bridge
+  backend:
+      driver: bridge

@@ -1,0 +1,33 @@
+version: "3"
+services:
+  nginx:
+    volumes:
+      - ./config/nginx/production.conf:/etc/nginx/conf.d/default.conf:ro
+    ports:
+      - "${APP_PORT}:80"
+
+  cfml:
+    environment:
+      PORT: 80
+      SSL_PORT: 443
+      BOX_SERVER_PROFILE: production
+      dbUsername: ${MYSQL_USER}
+      dbPassword: ${MYSQL_PASSWORD}
+      dbName: ${MYSQL_DATABASE}
+      dbPort: ${MYSQL_PORT}
+      dbTZ: ${APP_TZ}
+      mailServerHost: ${MAIL_SERVER_HOST}
+      mailServerPort: ${MAIL_SERVER_PORT}
+      mailServerUser: ${MAIL_SERVER_USER}
+      mailServerPass: ${MAIL_SERVER_PASS}
+      mailServerSSL: ${MAIL_SERVER_SSL} 
+      mailServerTLS: ${MAIL_SERVER_TLS}
+
+  mysql:
+    ports:
+      - 127.0.0.1:${MYSQL_PORT}:${MYSQL_PORT}
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
