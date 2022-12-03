@@ -1,0 +1,4 @@
+.env
+test.cfm
+app/public/*
+app/assets/css*
