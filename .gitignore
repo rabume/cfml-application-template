@@ -2,4 +2,4 @@
 test.cfm
 app/public/*
 app/assets/css*
-config/liquibase/*.jar
+config/liquibase/driver/*.jar
